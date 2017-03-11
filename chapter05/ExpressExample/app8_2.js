@@ -1,0 +1,36 @@
+var express = require('express'), 
+    http = require('http'), 
+    path = require('path');
+
+var bodyParser = require('body-parser');
+
+var app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/process/login/:name', function(req, res) {
+  console.log('processed response at first middleware');
+
+  var paramName = req.params.name;
+
+  var paramId = req.body.id;
+  var paramPassword = req.body.password;
+
+  res.writeHead(200, {'Content-Type':'text/html;charset=utf8'});
+  res.write('<h1>Response from Express Server</h1>');
+  res.write('<div><p>Param name:' + paramName + '</p></div>');
+  res.write('<div><p>Param id:' + paramId + '</p></div>');
+  res.write('<div><p>Param password:' + paramPassword + '</p></div>');
+  res.write('<br><br><a href="/login2.html">Back to login</a>')
+  res.end();
+});
+
+app.all('*', function(req, res) {
+  res.send('<h1>ERROR - Page not found</h1>');
+});
+
+http.createServer(app).listen(3000, function() {
+  console.log('Started Express Server with port 3000');
+});
