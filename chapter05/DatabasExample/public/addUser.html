@@ -26,4 +26,81 @@
       <input type="submit" value="submit">
     </form>
   </body>
-</html>
+</html><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <h1>Add user for mysql</h1>
+    <br>
+    <form action="/process/adduser" method="post">
+      <table>
+        <tr>
+          <td><label>ID</label></td>
+          <td><input type="text" name="id"></td>
+        </tr>
+        <tr>
+          <td><label>Name</label></td>
+          <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+          <td><label>Age</label></td>
+          <td><input type="text" name="age"></td>
+        </tr>
+        <tr>
+          <td><label>Password</label></td>
+          <td><input type="text" name="password"></td>
+        </tr>
+      </table>
+      <input type="submit" value="submit">
+    </form>
+  </body>
+</html><!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>List of user</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <h1>List of user</h1>
+    <br>
+    <form method="POST" action="/process/listuser">
+        <table>
+            <tr>
+                <td>
+                    <label>press [submit] button below</label>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" name="submit">
+    </form>
+    </body>
+</html><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <h1>Login</h1>
+    <br>
+    <form method="post" action="/process/login">
+      <table>
+        <tr>
+          <td><label for=""></label></td>
+          <td><input type="text" name="id" value=""></td>
+        </tr>
+        <tr>
+          <td><label for=""></label></td>
+          <td><input type="password" name="password"></td>
+        </tr>
+      </table>
+      <input type="submit" value="submit" name="">
+    </form>
+  </body>
+</html>
