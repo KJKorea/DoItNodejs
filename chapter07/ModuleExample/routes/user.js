@@ -1,22 +1,9 @@
-var database;
-var UserSchema;
-var UserModel;
-
-// initialize database, schema, model
-var init = function(db, schema, model) {
-  console.log('object initialized');
-
-  database = db;
-  UserSchema = schema;
-  UserModel = model;
-};
-
 // authenticate user
 var authUser = function(database, id, password, callback) {
   console.log('called authUser()');
 
   // 1. search by id
-  UserModel.findById(id, function(err, results) {
+  database.UserModel.findById(id, function(err, results) {
     if(err) {
       callback(err, null);
       return;
@@ -28,7 +15,7 @@ var authUser = function(database, id, password, callback) {
     if(results.length > 0) {
       console.log('searched id');
 
-      var user = new UserModel({id: id});
+      var user = new database.UserModel({id: id});
       var authenticated = user.authenticate(password, results[0]._doc.salt, results[0]._doc.hashed_password);
 
       if(authenticated) {
@@ -51,7 +38,7 @@ var addUser = function(database, id, password, name, callback) {
   console.log('called addUser()');
 
   // create instance of UserModel
-  var user = new UserModel({"id": id, "password": password, "name": name});
+  var user = new database.UserModel({"id": id, "password": password, "name": name});
 
   // save 
   user.save(function(err) {
@@ -70,6 +57,8 @@ var login = function(req, res) {
 
   var paramId = req.body.id;
   var paramPassword = req.body.password;
+
+  var database = req.app.get('database');
 
   if(database) {
     authUser(database, paramId, paramPassword, function(err, docs) {
@@ -107,6 +96,8 @@ var adduser = function(req, res) {
   var paramPassword = req.body.password;
   var paramName = req.body.name;
 
+  var database = req.app.get('database');
+
   if(database) {
     addUser(database, paramId, paramPassword, paramName, function(err, result) {
       if(err) throw err;
@@ -122,7 +113,7 @@ var adduser = function(req, res) {
         res.write('<h2>Failed to add user</h2>');
         res.end();
       }
-    })
+    });
   } else {
     res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
     res.write('<h2>failed to connect to database</h2>');
@@ -134,8 +125,10 @@ var adduser = function(req, res) {
 var listuser = function(req, res){
   console.log('called /process/listuser in user module');
 
+  var database = req.app.get('database');
+
   if(database) {
-    UserModel.findAll(function(err, results) {
+    database.UserModel.findAll(function(err, results) {
       if(err) {
         callback(err, null);
         return;
@@ -164,7 +157,6 @@ var listuser = function(req, res){
   }
 };
 
-module.exports.init = init;
 module.exports.login = login;
 module.exports.adduser = adduser;
 module.exports.listuser = listuser;
